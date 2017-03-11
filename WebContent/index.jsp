@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<!----------- Login and register user form ------------->
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page errorPage="todoErrorpage.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -15,13 +15,34 @@
 		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 		<link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/style.css" />
+		<script src="${pageContext.request.contextPath}/scripts.js"  type="text/js"></script>
     </head>
     <body>
-        <div class="container">
-           
-            <header>
-                <h1>ToDo List Login and Registration Form</h1>
+ <!----------------------------------------------------------------- Login form ---------------------------------------------------------->
+ 
+ <%
+   
+// if user did "keep me login" he redirect to todolist skiping login
+	Cookie[] requestCookies = request.getCookies();
+	if (requestCookies != null) {
+		for (Cookie c : requestCookies) {
+			if (c.getName().equals("loginkeep")) {
 				
+				if(c.getValue().equalsIgnoreCase("loginkeeping")){
+					session.setAttribute("isAuthenticated","true");
+					response.sendRedirect("/ToDoListWebProject/todolist/login");
+				}
+			
+			}
+			
+		}
+
+	}
+ 
+ %>
+        <div class="container">           
+            <header>
+                <h1>ToDo List Login and Registration Form</h1>			
             </header>
             <section>				
                 <div id="container_demo" >
@@ -73,8 +94,8 @@
 									<a href="#toregister" class="to_register">Join us</a>
 								</p>
                             </form>
-                        </div>
-
+                        </div>                  
+<!----------------------------------------------------------------- Register form ---------------------------------------------------------->
                         <div id="register" class="animate form">
                             <form  method="post" action="/ToDoListWebProject/todolist/register" autocomplete="on"> 
                                 <h1> Sign up </h1> 
@@ -120,5 +141,6 @@
                 </div>  
             </section>
         </div>
+          <jsp:include page="copyright.jsp" />
     </body>
 </html>

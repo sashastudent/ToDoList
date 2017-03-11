@@ -1,5 +1,9 @@
-/**Demo class for using DB 
- * user name & password in mysql : hbuser */
+/**
+ * Mini stand alone application 
+ * Demo class for using DB 
+ * user name & password in mysql : hbuser 
+ * only for tasting of IToDoListDAO functions
+ * */
 
 package il.ac.shenkar.todolist.model;
 
@@ -18,15 +22,20 @@ public class ToDoListDemo {
 		User user = new User("vanilaa", "Blank", "vanilaa", "12sa");
 
 		try {
+			//adding new user to DB
 			hiber.addUser(user);
-			Item taskBuy = new Item("buy", "buy colla", 1, user.getUserName());
+			//add to user new task
+			Item taskBuy = new Item("buy", "buy colla", user.getUserName());
+			//read user
 			User user2 = hiber.getUser(user.getUserName());
-			hiber.add_ToDo_Item(taskBuy);
+			//add task 
+			hiber.addTask(taskBuy);
+			//get todo list of user
 			List<Item> list = hiber.getToDoList(user.getUserName());
 			for (Item temp : list) {
 				System.out.println("Content: " + temp);
 			}
-		} catch (HiberException e) {
+		} catch (ToDoListException e) {
 
 			System.out.println(e.geteMessage());
 			e.printStackTrace();

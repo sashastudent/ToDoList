@@ -1,5 +1,5 @@
-
-
+/**********CSS of index.jsp and todolist.jsp files***************/
+/*****CSS of index.jsp *****/
 @font-face {
     font-family: 'Raleway', sans-serif;
 }
@@ -4472,7 +4472,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 	animation-name: scaleIn;
 }
 
-/****p error claa****/
+/****p error class****/
 
 .errorP{
 	color:red;
@@ -4480,7 +4480,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 	margin: -12px 0px 0px 8px;
 }
 
-/***********************************css todo list *****************************/
+/***********************************CSS todolist.jsp file *****************************/
 /* Include the padding and border in an element's total width and height */
 
 * {
@@ -4697,9 +4697,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     width : 95%;
     margin: 0 auto;
     position: fixed; 
-    bottom: 0;
+    bottom: 0px;
     left:2.5%;
     right:2.5%;  
+
+    
 }
 #todolist ul p:nth-child(1){
 	font-size: 20px;
@@ -4709,4 +4711,22 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 	font-weight: bold;
 	margin-top: 20px;
 
+}
+
+.clear{
+	clear:both;
+}
+
+.copyright{
+  
+    position: absolute;
+    bottom: 60px;
+}
+
+.time{
+    position: fixed;
+    bottom: 60px;
+    left: 80%;
+    font-weight: 900;
+    color: white;
 }

@@ -1,6 +1,7 @@
+<!-- Error page used for inform the user about errors in program  -->
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"
-	import="java.util.*, il.ac.shenkar.todolist.model.HiberException"%>
+	import="java.util.*, il.ac.shenkar.todolist.model.ToDoListException"%>
 <%@ page isErrorPage="true"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -16,7 +17,7 @@
 			<td>Exception Class: </td>
 			<td>
 				<%
-					HiberException error = (HiberException) request.getAttribute("errorMessage");
+					ToDoListException error = (ToDoListException) request.getAttribute("errorMessage");
 					out.print(error.getClass());
 				%>
 			</td>

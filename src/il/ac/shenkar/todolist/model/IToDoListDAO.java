@@ -14,70 +14,58 @@ import org.hibernate.SessionFactory;
 
 public interface IToDoListDAO {
 
-	/** 
-	 *  create one session factory for use in all sessions in program
-	 * */
-//	public SessionFactory gettingSassuionFactory();
-
 	/**
-	 *  create Item and insert to table Items in DB 
-	 *  @param
-	 *  @param
+	 *  create ToDo Item Task and insert to table Items in DB 
+	 *  @param newTask new Item that user insert
 	 * */
-	public void add_ToDo_Item(Item newTask)
-			throws HiberException;
+	public void addTask(Item newTask)
+			throws ToDoListException;
 	
 	/**
-	 *  get user ToDo list 
-	 *  @param
-	 *  @param
+	 *  get user ToDo list Task from BD with username
+	 *  @param username is unique name in DB can be email also
 	 * */
-	public List<Item> getToDoList(String username) throws HiberException; 
+	public List<Item> getToDoList(String username) throws ToDoListException; 
 	
 	/**
-	 *  read Item from DB 
-	 *  @param
-	 *  @param
+	 *  read Item Task from DB 
+	 *  userName search item task with username 
+	 *  @param userName
 	 *  */
-	public Item read_ToDo_Item(String userName) throws HiberException;
+	public Item readTask(String userName) throws ToDoListException;
 
 
 	/**
-	 * add user
-	 *  @param
-	 *  @param
+	 *  add user to DB
+	 *  @param  user the new user
 	 *  */
-	public void addUser(User user)throws HiberException;
+	public void addUser(User user)throws ToDoListException;
 		
 	/**
 	 *  get User from DB 
-	 *  @param
-	 *  @param
+	 *  @param userName or email is unique name
 	 *  */
-	public User getUser(String userName) throws HiberException;
+	public User getUser(String userName) throws ToDoListException;
 
 	/**
-	 *  delete specific To Do item use id 
-	 *  @param
-	 *  @param
+	 *  delete specific item Task use id Task
+	 *  @param id of task in DB
 	 *  */
-	public void deleteToDo_Item(int id) throws HiberException;
+	public void deleteTask(int id) throws ToDoListException;
 	
 	
 	/** 
 	 *  check if new username or email already exist in DB
-	 *  @param newUserNamEmail the new email or username that user choose in registration
-	 *  @param factory for using DB 
+	 *  @param newUserNamEmail the new email or username that user choose in registration 
 	 *  */
-	public boolean isUserNameEmailExists(String newUserNamEmail)throws  HiberException;
+	public boolean isUserNameEmailExists(String newUserNamEmail)throws  ToDoListException;
 	
 
 	/**
-	 *  update done value in To Do Item 
+	 *  update done value in To Do Item Task
 	 *  @param id of task that need to update
-	 *  @param factory for using DB
 	 *  */
-	public void updateItemTo_Do_done(int id) throws HiberException;
+	public void updateTaskdone(int id) throws ToDoListException;
 		
 	
 	/**
@@ -85,9 +73,8 @@ public interface IToDoListDAO {
 	 *  @param id of task that need to update
 	 *  @param newToDoName new name Task
 	 *  @param newToDescription new description task
-	 *  @param factory for using DB
 	 *  */
-	public void updateItemTo_Do_Item(int id, String newToDoName, String newToDescription) throws HiberException;
+	public void updateTask(int id, String newToDoName, String newToDescription) throws ToDoListException;
 
 	
 }

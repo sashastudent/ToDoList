@@ -18,7 +18,7 @@ public class HibernateToDoListDAO implements IToDoListDAO {
 	private SessionFactory factory;
 	
 	/** 
-	 * private contractor for implement singleton 
+	 * private constructor for implement singleton 
 	 * */
 	private HibernateToDoListDAO() {
 		/* create one session factory for use in all sessions in program */
@@ -26,6 +26,11 @@ public class HibernateToDoListDAO implements IToDoListDAO {
 				.addAnnotatedClass(User.class).buildSessionFactory();
 	}
 
+	
+	/**
+	 * Implementation of singleton, return instance of HibernateToDoListDAO class
+	 * @return hibernatToDoListDAO
+	 */
 	public static HibernateToDoListDAO getHibernateToDoListDAO() {
 
 		if (hibernatToDoListDAO == null) {
@@ -35,36 +40,28 @@ public class HibernateToDoListDAO implements IToDoListDAO {
 		return hibernatToDoListDAO;
 	}
 
-	/* create one session factory for use in all sessions in program */
-/*	@Override
-	public SessionFactory gettingSassuionFactory() {
-
-		// create session factory for getting session
-		SessionFactory factory = new Configuration().configure().addAnnotatedClass(Item.class)
-				.addAnnotatedClass(User.class).buildSessionFactory();
-
-		return factory;
-	}*/
-
-	/* The method create the item and insert it in to Table of Items in DB */
+	
+	/**
+	 *  create ToDo Item Task and insert to table Items in DB 
+	 *  @param newTask new Item that user insert
+	 * */
 	@Override
-	public void add_ToDo_Item(Item newTask) throws HiberException {
+	public void addTask(Item newTask) throws ToDoListException {
 
 		Session session = factory.getCurrentSession();
 		try {
-			Item tempItem = new Item(newTask.getName(), newTask.getDescription(), newTask.getPriority(),
-					newTask.getUserName());
+			Item tempItem = new Item(newTask.getName(), newTask.getDescription(),newTask.getUserName());
 			session.beginTransaction();
 			session.save(tempItem);
 			session.getTransaction().commit();
 			System.out.println("Item Created!");
 
-		} catch (Exception e) {
+		} catch (HibernateException e) {
 			if (session.getTransaction() != null) {
 				System.out.println("Problem creating session factory");
 				session.getTransaction().rollback();
 			}
-			throw new HiberException(e.getMessage() + " ,Task not created!");
+			throw new ToDoListException(e.getMessage() + " ,Task not created!");
 		} finally {
 
 			session.close();
@@ -72,9 +69,13 @@ public class HibernateToDoListDAO implements IToDoListDAO {
 
 	}
 
-	/* read Item from DB */
+	/**
+	 *  read Item Task from DB 
+	 *  userName search item task with username 
+	 *  @param userName
+	 *  */
 	@Override
-	public Item read_ToDo_Item(String userName) throws HiberException {
+	public Item readTask(String userName) throws ToDoListException {
 		Session session = factory.getCurrentSession();
 		try {
 			session.beginTransaction();
@@ -85,26 +86,27 @@ public class HibernateToDoListDAO implements IToDoListDAO {
 				return myTODOItem;
 			}
 
-		} catch (Exception e) {
+		} catch (HibernateException e) {
 			if (session.getTransaction() != null) {
 				System.out.println("Problem creating session factory");
 				session.getTransaction().rollback();
 			}
-			throw new HiberException(e.getMessage() + " ,can't read this Task from DB ");
+			throw new ToDoListException(e.getMessage() + " ,can't read this Task from DB ");
 		} finally {
 
 			session.close();
 		}
 
-		throw new HiberException("Can't read This Task it Doesn't Exists !");
+		throw new ToDoListException("Can't read This Task it Doesn't Exists !");
 
 	}
 
 	/**
-	 * add user
-	 */
+	 *  add user to DB
+	 *  @param  user the new user
+	 *  */
 	@Override
-	public void addUser(User user) throws HiberException {
+	public void addUser(User user) throws ToDoListException {
 		Session session = factory.getCurrentSession();
 		try {
 			User tempUser = new User(user.getFirstName(), user.getLastName(), user.getUserName(), user.getPassword());
@@ -113,23 +115,24 @@ public class HibernateToDoListDAO implements IToDoListDAO {
 			session.getTransaction().commit();
 			System.out.println("User created!");
 
-		} catch (Exception e) {
+		} catch (HibernateException e) {
 			if (session.getTransaction() != null) {
 				System.out.println("Problem creating session factory");
 				session.getTransaction().rollback();
 			}
-			throw new HiberException(e.getMessage() + " ,can't Add User");
+			throw new ToDoListException(e.getMessage() + " ,can't Add User");
 		} finally {
 
 			session.close();
 		}
 	}
-
+	
 	/**
-	 * get User from DB
-	 */
+	 *  get User from DB 
+	 *  @param userName or email is unique name
+	 *  */
 	@Override
-	public User getUser(String userName) throws HiberException {
+	public User getUser(String userName) throws ToDoListException {
 		Session session = factory.getCurrentSession();
 		try {
 			session.beginTransaction();
@@ -141,21 +144,27 @@ public class HibernateToDoListDAO implements IToDoListDAO {
 				return tempUser;
 			}
 
-		} catch (Exception e) {
+		} catch (HibernateException e) {
 			if (session.getTransaction() != null) {
 				System.out.println("Problem creating session factory");
 				session.getTransaction().rollback();
 			}
-			throw new HiberException(e.getMessage() + " ,can't Read this User");
+			throw new ToDoListException(e.getMessage() + " ,can't Read this User");
 
 		} finally {
 
 			session.close();
 		}
-		throw new HiberException("Can't Read This User, Doesn't Exists");
+		throw new ToDoListException("Can't Read This User, Doesn't Exists");
 	}
 
-	public List<Item> getToDoList(String username) throws HiberException {
+	
+	/**
+	 *  get user ToDo list Task from BD with username
+	 *  @param username is unique name in DB can be email also
+	 * */
+	@Override
+	public List<Item> getToDoList(String username) throws ToDoListException {
 
 		List<Item> todo = null;
 		Query hql = null;
@@ -171,23 +180,27 @@ public class HibernateToDoListDAO implements IToDoListDAO {
 				return listResult;
 			}
 
-		} catch (Exception e) {
+		} catch (HibernateException e) {
 			if (session.getTransaction() != null) {
 				System.out.println("Problem creating session factory");
 				session.getTransaction().rollback();
 			}
-			throw new HiberException(e.getMessage() + " ,can't Read this User and get todo list user");
+			throw new ToDoListException(e.getMessage() + " ,can't Read this User and get todo list user");
 
 		} finally {
 
 			session.close();
 		}
-		throw new HiberException("Can't get item list this item list is null");
+		throw new ToDoListException("Can't get item list this item list is null");
 
 	}
 
-	/* delete specific To Do item use id */
-	public void deleteToDo_Item(int id) throws HiberException {
+	/**
+	 *  delete specific item Task use id Task
+	 *  @param id of task in DB
+	 *  */
+	@Override
+	public void deleteTask(int id) throws ToDoListException {
 		Session session = factory.getCurrentSession();
 
 		try {
@@ -200,31 +213,28 @@ public class HibernateToDoListDAO implements IToDoListDAO {
 				return;
 			}
 
-		} catch (Exception e) {
+		} catch (HibernateException e) {
 
 			if (session.getTransaction() != null) {
 				System.out.println("Problem creating session factory");
 				session.getTransaction().rollback();
 			}
-			throw new HiberException(e.getMessage() + " ,can't delete This Task");
+			throw new ToDoListException(e.getMessage() + " ,can't delete This Task");
 
 		} finally {
 
 			session.close();
 		}
-		throw new HiberException("Can't delete This Task it Doesn't Exists !");
+		throw new ToDoListException("Can't delete This Task it Doesn't Exists !");
 
 	}
 
-	/**
-	 * check if new username or email already exist in DB
-	 * 
-	 * @param newUserNamEmail
-	 *          newUserNamEmail the new email or username that user choose in registration
-	 * @param factory
-	 *           factory for using DB
-	 */
-	public boolean isUserNameEmailExists(String newUserNamEmail) throws HiberException {
+	/** 
+	 *  check if new username or email already exist in DB
+	 *  @param newUserNamEmail the new email or username that user choose in registration
+	 *  */
+	@Override
+	public boolean isUserNameEmailExists(String newUserNamEmail) throws ToDoListException {
 
 		Query hql = null;
 		Session session = factory.getCurrentSession();
@@ -238,12 +248,12 @@ public class HibernateToDoListDAO implements IToDoListDAO {
 			if (list.isEmpty()) {
 				return false;
 			}
-		} catch (Exception e) {
+		} catch (HibernateException e) {
 			if (session.getTransaction() != null) {
 				System.out.println("Problem creating session factory");
 				session.getTransaction().rollback();
 			}
-			throw new HiberException(e.getMessage() + " ,can't check if new username or email olrady exsissst ");
+			throw new ToDoListException(e.getMessage() + " ,can't check if new username or email olrady exsissst ");
 
 		} finally {
 
@@ -253,14 +263,11 @@ public class HibernateToDoListDAO implements IToDoListDAO {
 	}
 
 	/**
-	 * update done value in To Do Item
-	 * 
-	 * @param id
-	 *           id of task that need to update
-	 * @param factory
-	 *          factory for using DB
-	 */
-	public void updateItemTo_Do_done(int id) throws HiberException {
+	 *  update done value in To Do Item Task
+	 *  @param id of task that need to update
+	 *  */
+	@Override
+	public void updateTaskdone(int id) throws ToDoListException {
 		Session session = factory.getCurrentSession();
 		try {
 			session.beginTransaction();
@@ -275,18 +282,18 @@ public class HibernateToDoListDAO implements IToDoListDAO {
 				return;
 			}
 
-		} catch (Exception e) {
+		} catch (HibernateException e) {
 			if (session.getTransaction() != null) {
 				System.out.println("Problem creating session factory");
 				session.getTransaction().rollback();
 			}
-			throw new HiberException(e.getMessage() + " ,can't update done value in This Task");
+			throw new ToDoListException(e.getMessage() + " ,can't update done value in This Task");
 
 		} finally {
 
 			session.close();
 		}
-		throw new HiberException("Can't Update done value This Task it Doesn't Exists !");
+		throw new ToDoListException("Can't Update done value This Task it Doesn't Exists !");
 
 	}
 	
@@ -296,9 +303,9 @@ public class HibernateToDoListDAO implements IToDoListDAO {
 	 *  @param id of task that need to update
 	 *  @param newToDoName new name Task
 	 *  @param newToDescription new description task
-	 *  @param factory for using DB
 	 *  */
-	public void updateItemTo_Do_Item(int id, String newToDoName, String newToDescription) throws HiberException{
+	@Override
+	public void updateTask(int id, String newToDoName, String newToDescription) throws ToDoListException{
 		Session session = factory.getCurrentSession();
 		try {
 			session.beginTransaction();
@@ -311,17 +318,17 @@ public class HibernateToDoListDAO implements IToDoListDAO {
 				return;
 			}
 
-		} catch (Exception e) {
+		} catch (HibernateException e) {
 			if (session.getTransaction() != null) {
 				System.out.println("Problem creating session factory");
 				session.getTransaction().rollback();
 			}
-			throw new HiberException(e.getMessage() + " ,can't update Task");
+			throw new ToDoListException(e.getMessage() + " ,can't update Task");
 
 		} finally {
 
 			session.close();
 		}
-		throw new HiberException("Can't Update This Task it Doesn't Exists !");
+		throw new ToDoListException("Can't Update This Task it Doesn't Exists !");
 	}
 }

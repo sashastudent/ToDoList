@@ -1,23 +1,16 @@
+<!---------------ToDoList page view ---------------->
 <%@ page language="java" contentType="text/html;  charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"
-	import="java.util.*, il.ac.shenkar.todolist.model.*" %>
+	pageEncoding="ISO-8859-1" import="java.util.*, il.ac.shenkar.todolist.model.* , il.ac.shenkar.todolist.controller.*" %>
 <%@ page errorPage="todoErrorpage.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"
-	charset="UTF-8">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/style.css" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" charset="UTF-8">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/style.css" type="text/css" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="${pageContext.request.contextPath}/scripts.js"
-	type="text/js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <title>Insert title here</title>
 </head>
 <body id="todolist">
@@ -30,36 +23,20 @@
 				My To Do List </br>Hello
 				<%
 				//use cookies- firstNameCookies and lastNameCookie that created in controller
-				String firstNC = "firstNameCookie";
-				String lastNC = "lastNameCookie";
-				Cookie[] requestCookies = request.getCookies();
-				if (requestCookies != null) {
-					for (Cookie c : requestCookies) {
-						if (c.getName().equals("firstName")) {
-							out.write(c.getValue());
-						}
-						out.write(" ");
-						if (c.getName().equals("lastName")) {
-							out.write(c.getValue());
-						}
-					/*	if ((c.getName()).compareTo("firstName") == 0  || (c.getName()).compareTo("lastName") == 0) {
-							c.setMaxAge(0);
-							response.addCookie(c);
-						
-						}*/
-					}
-
-				}
-			%>
+				Utils utils = new Utils();
+				String firstName =utils.getValueCookie("firstName", request);
+				String lastName =utils.getValueCookie("lastName", request);
+				if(firstName != null){out.write(firstName);}
+				out.write(" ");
+				if(lastName != null){out.write(lastName);}				
+		    	%>
 			</h2>
 
 			<input type="text" id="myInput" name="taskname" placeholder="Title -">
-			<input type="text" name="taskdescription"
-				placeholder="Description...">
+			<input type="text" name="taskdescription" placeholder="Description...">
 			<button type="submit"  class="addBtn"
 				name="action" value="Add">Add</button>
 		</div>
-
 		<ul>
 		<%
 		    List<Item> usertodolist = (List)request.getAttribute("list");
@@ -86,12 +63,12 @@
 				}
 			}
 			%>
-			</ul>		
+			</ul>	
  			<p class='edit'><input type='text' class='idtask' name='idedittask' placeholder='Id '/>
 			<input type='text' class='title' name='edittaskname' placeholder='Edit Title'/>
 			<input type='text' class='descr' name='editdescrip' placeholder='Edit Description'/>
-			<button type='submit' class='addBtn' name='action' value='edit'>Edit</button> </p>
-				
+			<button type='submit' class='addBtn' name='action' value='edit'>Edit</button> 
+			</p>			
 	</form>
 </body>
 </html>
