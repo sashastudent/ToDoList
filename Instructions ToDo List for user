@@ -1,0 +1,48 @@
+Instructions ToDo List for user-
+Sign up and Login:
+
+Sign up:
+     1.	First page is Login it is index.jsp also.  (see image: login.png)
+     2.	Click on “join us” for do Sing up (see image: register.png)
+     3.	Fill form, you can register with user name or with your email it need to be unique user name.
+     4.	If inserted Email or user name is already existed in data base   
+        error will appear (see image: existedmailER.png)
+     5.	Click on “Sign up” button.
+        ToDo List will be opened. (see image: todolist.png)
+
+Login:
+      1.	First page is Login it is index.jsp also.  (see image: login.png)
+      2.	Insert your email or user name and password.
+      3.	If that password was incorrect error will appear.  (see image: PasswordsER.png)
+      4.	You can check “keep me login” check box for not login in next time.  (see image: keepMeLogged.png)
+      5.	Click on “login”.
+      6.	ToDo List will be opened. (see image: todolist.png)
+      
+Logout:
+      7.	Click on “logout button” that in top right corner 
+      of ToDo List page.  (see image: logout.png)
+      
+      
+In ToDo List-
+
+Add Task:
+      1.	Insert new Task in fields. (see image: addTask.png)
+      2.	Click on “Add”.
+
+Delete Task:
+      1.	Click on “x” in right side of Task. (see image: deleteTask.png)
+      
+Mark Task to done:
+      1.	Click on Task.
+      
+Mark not Don Task from don Task :
+      1.	Click again on task.
+      
+Edit Task:
+      1.	In bottom of page insert id task and
+          new details of task. (see image: editTask.png)
+      2.	Click on “Edit”.
+
+
+
+
